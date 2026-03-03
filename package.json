@@ -1,0 +1,20 @@
+{
+  "name": "zionhub",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:menu":      "npm -w apps/menu run dev",
+    "dev:rotina":    "npm -w apps/rotina_inteligente run dev",
+    "dev:mix":       "npm -w apps/mix_page run dev",
+    "dev:marketing": "npm -w apps/marketing run dev",
+    "build:menu":      "npm -w apps/menu run build",
+    "build:rotina":    "npm -w apps/rotina_inteligente run build",
+    "build:mix":       "npm -w apps/mix_page run build",
+    "build:marketing": "npm -w apps/marketing run build",
+    "build:all": "npm run build:menu && npm run build:rotina && npm run build:mix && npm run build:marketing"
+  }
+}

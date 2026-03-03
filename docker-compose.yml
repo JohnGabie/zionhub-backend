@@ -67,10 +67,10 @@ services:
   # Cada app serve na porta 80 internamente; o nginx proxy faz o roteamento.
   # ---------------------------------------------------------------
 
-  # rotina_inteligente — app principal de automação
+  # rotina_inteligente — repo: JohnGabie/zionhub-smart-rotine
   rotina:
     build:
-      context: ./apps/rotina_inteligente
+      context: ../zionhub-smart-rotine
       dockerfile: Dockerfile
     container_name: zionhub_rotina
     restart: unless-stopped
@@ -93,10 +93,10 @@ services:
           memory: 128M
           cpus: '0.5'
 
-  # mix_page — app do mixer de áudio
+  # mix_page — repo: JohnGabie/zionhub-mix-page
   mix:
     build:
-      context: ./apps/mix_page
+      context: ../zionhub-mix-page
       dockerfile: Dockerfile
     container_name: zionhub_mix
     restart: unless-stopped
@@ -153,6 +153,32 @@ services:
   #     dockerfile: Dockerfile
 
   # ---------------------------------------------------------------
+  # Landpages de igrejas
+  # ---------------------------------------------------------------
+
+  # ribeirodequerite — repo: JohnGabie/ribeirodequerite-landpage
+  ribeirodequerite:
+    build:
+      context: ../ribeirodequerite-landpage
+      dockerfile: Dockerfile
+    container_name: zionhub_ribeirodequerite
+    restart: unless-stopped
+    networks:
+      - zionhub_network
+    environment:
+      TZ: America/Sao_Paulo
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: '0.25'
+
+  # ---------------------------------------------------------------
   # Nginx Proxy — roteamento multi-domínio
   # Expõe porta 8080 (HTTP); em produção use 80 + TLS via certbot
   # ---------------------------------------------------------------
@@ -172,6 +198,7 @@ services:
       - rotina
       - mix
       - menu
+      - ribeirodequerite
     deploy:
       resources:
         limits:

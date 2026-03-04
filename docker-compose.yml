@@ -145,12 +145,27 @@ services:
           memory: 128M
           cpus: '0.5'
 
-  # marketing — site do ZionHub (zionhub.app)
-  # TODO: mover para repo separado (zionhub-marketing) — fora do escopo desta etapa
-  # marketing:
-  #   build:
-  #     context: ./apps/marketing
-  #     dockerfile: Dockerfile
+  # marketing — landing page do ZionHub (repo: JohnGabie/zionhub-landpage)
+  marketing:
+    build:
+      context: ../zionhub-landpage
+      dockerfile: Dockerfile
+    container_name: zionhub_marketing
+    restart: unless-stopped
+    networks:
+      - zionhub_network
+    environment:
+      TZ: America/Sao_Paulo
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: '0.25'
 
   # ---------------------------------------------------------------
   # Landpages de igrejas
@@ -198,6 +213,7 @@ services:
       - rotina
       - mix
       - menu
+      - marketing
       - ribeirodequerite
     deploy:
       resources:
